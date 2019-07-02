@@ -15,6 +15,9 @@
 ## Project Scope
 The purpose of this project was to model airflow through a rotor in an airduct. Under given conditions, we were to plot various properties of the air at multiple positions along the axial direction of the duct. We were also to plot the shape of the rotor blade based on the given inlet and outlet conditions of the flow. We were to model the airflow using the Radial Equilibrium Equation (REE), obtaining the results for the compressible flow and incompressible flow cases. 
 
+#### Rotor in Air Duct Diagram
+![Diagram](https://i.imgur.com/g0m4ZZP.png)
+
 ## Radial Equilibrium Equation
 The REE equation is based on the premise that the radial force experienced by the air contributes to the radial movement of the flow. These forces must be balanced by the static forces exerted by the pressure gradient existing in the flow. Therefore, at any moment of time the system is assumed to be in radial equilibrium. 
 
