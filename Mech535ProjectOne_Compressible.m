@@ -76,8 +76,6 @@ for i=1:NSTATN %horizontal stations
         end
             PSI(j,i)=((RADIUS(j,i)^2)-RHUB^2)/(RSHROUD^2-RHUB^2);
             DENSITY(j,i)=1.500; %kg/m3
-            
-          
     end
 end
 
@@ -89,10 +87,7 @@ for j=1:NSTRM
   TTOTAL(j,1)=288;
   ENTROPY(j,1)=0;                   
   
-end 
-
-
-
+end
 
 % Set and Interpolate Swirl, Loss Coefficient  ----checked2
 for j=1:NSTRM
@@ -124,7 +119,6 @@ for w=1:MAXITS
 
 for i=1:NSTATN
     for j=1:NSTRM
-        
         %%%%for the hub boundary (not corners)
         
        if (i~=1)&&(i~=50)&&(j==1)
@@ -146,8 +140,6 @@ for i=1:NSTATN
        elseif (j~=1)&&(j~=10)&&(i==50)
                      CZ(j,i)=XMASS/(2*pi*DENSITY(j,i)*RADIUS(j,i))*(PSI(j+1,i)-PSI(j-1,i))/(2*DELTAR);  
                     CR(j,i)=(-1)*XMASS/(2*pi*DENSITY(j,i)*RADIUS(j,i))*(PSI(j,i)-PSI(j,i-1))/(2*DELTAZ);
-
-
 
 %%%%%%%%%%%%% four corners of grid
 
@@ -176,11 +168,9 @@ for i=1:NSTATN
         else 
           CZ(j,i) = XMASS/(2*3.14*DENSITY(j,i)*RADIUS(j,i))*(PSI(j+1,i)-PSI(j-1,i))/(2*DELTAR);
           CR(j,i) = (-1)*XMASS/(2*3.14*DENSITY(j,i)*RADIUS(j,i))*(PSI(j,i+1)-PSI(j,i-1))/(2*DELTAZ);
-      
                    end    
         end
     end
-    
 
     %% Tracing Thermo Vars
     
@@ -192,23 +182,17 @@ for i=1:NSTATN
         DENSITY(j,1)=PSTATIC/(RGAS*HSTATIC(j,1)/CP);    %for compressible flow, part A! comment out for part b
         
     end
-    
-   
-   
-    
+
     %Sweep planes
     for i=2:NSTATN
          for j=1:NSTRM
           LEFT=i-1;
-          
              for NSTART=1:9
-        
-      PSIDN=PSI(NSTART,LEFT);
-      PSIUP=PSI(NSTART+1,LEFT);
-      
+                PSIDN=PSI(NSTART,LEFT);
+                PSIUP=PSI(NSTART+1,LEFT);
                  
-     if(PSI(j,i)<=PSIUP)&&(PSI(j,i)>=PSIDN)
-       DELTA = (PSI(j,i)-PSIDN)/(PSIUP-PSIDN);
+                if(PSI(j,i)<=PSIUP)&&(PSI(j,i)>=PSIDN)
+                DELTA = (PSI(j,i)-PSIDN)/(PSIUP-PSIDN);
 
         % LEFT is leading edge for rotor 
         if (i>=21)&&(i<=30)              
@@ -216,10 +200,6 @@ for i=1:NSTATN
         else
             ROTATE=0;
         end
-    
-        
-        
-        
         
     %quantities at "1" needed for loss calculation
     RCU1 = DELTA*(RCU(NSTART+1,LEFT)-RCU(NSTART,LEFT))+RCU(NSTART,LEFT);
@@ -273,14 +253,11 @@ for i=1:NSTATN
     %%%%%%%%
      TSTATIC(j,i)= HSTATIC(j,i)/CP;
      ENTROPY(j,i) = CP*log(HOR2(j,i)/HOR1)-RGAS*log(POR2/POR1)+ENTROP1;
-    
         end
-
             end
         end
     end
-    
-    
+
     %%%%%%%%%%%%%%%%%RHS CALC & ERR
     for i = 2:NSTATN 
         for j = 2:(NSTRM-1)
@@ -293,31 +270,26 @@ for i=1:NSTATN
     RHSOLD (1:NSTRM,1:NSTATN) =  RHS(1:NSTRM,1:NSTATN);
         end
     end       
-              
-            
-  %Calc A, B and PSI
-  
-  
-          for k = 1: MAXITS
-    ERROR = 0; 
-  for i = 2:NSTATN-1
-      for j = 2:NSTRM-1
-                if i ==  NSTATN-1
-                B(j,i)=   (4*PSI(j,NSTATN-1)./DENSITY(j,i)*RADIUS(j,i)...
-                          +2*PSI(j+1,i)./((DENSITY(j+1,i)*RADIUS(j+1,i))+(DENSITY(j,i)*RADIUS(j,i)))...
-                          +2*PSI(j-1,i)./((DENSITY(j-1,i)*RADIUS(j-1,i))+(DENSITY(j,i)*RADIUS(j,i))));
-                end
 
+  %Calc A, B and PSI
+          for k = 1: MAXITS
+            ERROR = 0;
+                for i = 2:NSTATN-1
+                    for j = 2:NSTRM-1
+                        if i ==  NSTATN-1
+                                B(j,i)=   (4*PSI(j,NSTATN-1)./DENSITY(j,i)*RADIUS(j,i)...
+                +2*PSI(j+1,i)./((DENSITY(j+1,i)*RADIUS(j+1,i))+(DENSITY(j,i)*RADIUS(j,i)))...
+                +2*PSI(j-1,i)./((DENSITY(j-1,i)*RADIUS(j-1,i))+(DENSITY(j,i)*RADIUS(j,i))));
+                end
                if j == 2 
                B(j,i)=   (2*PSI(j,i+1)./((DENSITY(j,i+1)*RADIUS(j,i+1))+(DENSITY(j,i)*RADIUS(j,i)))...
-                         +2*PSI(j,i-1)./((DENSITY(j,i-1)*RADIUS(j,i-1))+(DENSITY(j,i)*RADIUS(j,i)))...
-                         +2*PSI(j+1,i)./((DENSITY(j+1,i)*RADIUS(j+1,i))+(DENSITY(j,i)*RADIUS(j,i))));
+                    +2*PSI(j,i-1)./((DENSITY(j,i-1)*RADIUS(j,i-1))+(DENSITY(j,i)*RADIUS(j,i)))...
+                    +2*PSI(j+1,i)./((DENSITY(j+1,i)*RADIUS(j+1,i))+(DENSITY(j,i)*RADIUS(j,i))));
                end
-
                if j == NSTRM-1
                B(j,i)=   (2*PSI(j,i+1)./((DENSITY(j,i+1)*RADIUS(j,i+1))+(DENSITY(j,i)*RADIUS(j,i)))...
-                         +2*PSI(j,i-1)./((DENSITY(j,i-1)*RADIUS(j,i-1))+(DENSITY(j,i)*RADIUS(j,i)))...
-                         +2*PSI(j+1,i)./((DENSITY(j+1,i)*RADIUS(j+1,i))+(DENSITY(j,i)*RADIUS(j,i)))+1);
+                    +2*PSI(j,i-1)./((DENSITY(j,i-1)*RADIUS(j,i-1))+(DENSITY(j,i)*RADIUS(j,i)))...
+                    +2*PSI(j+1,i)./((DENSITY(j+1,i)*RADIUS(j+1,i))+(DENSITY(j,i)*RADIUS(j,i)))+1);
                end
 
                 A(j,i)=1./(2./((DENSITY(j,i+1)*RADIUS(j,i+1))+(DENSITY(j,i)*RADIUS(j,i)))...
@@ -332,7 +304,6 @@ for i=1:NSTATN
                  PSIOLD(j,i) = A(j,i)*(B(j,i)+(DELTAZ^2).*(RHS (j,i)));
                  PSICHANGE(j,i) = abs(PSIOLD(j,i)-PSI(j,i));
                  ERROR = max(max(PSICHANGE));
-
            end
         end
 
@@ -341,10 +312,9 @@ for i=1:NSTATN
         if ERROR < TOLPSI % ---- Exit condition -----------------
             break;
         end
-
-
     end
-    MAXERR = 0.00001;
+
+MAXERR = 0.00001;
 TOLDENS=0.001;
 TOLRHS=.01;
 TOLPSI=0.00001;
@@ -352,16 +322,9 @@ TOLPSI=0.00001;
     if ERRRHS < TOLRHS && ERRDENS < TOLDENS
         break;
     end
-
-    
-  
-    
-    
 end
 
-  PSI;
-
-
+PSI;
 
 %% Plots
 %1-D
@@ -412,10 +375,8 @@ end
 [X,Y]=meshgrid(1:9,1:10);
 C=gradient(BLADE);
 surf(X,BLADE,Y,C)
-    
- 
-        title({'3D Rotor Blade'})
 
+        title({'3D Rotor Blade'})
 
 colorbar;       
 hold off
