@@ -23,21 +23,24 @@ The REE equation is based on the premise that the radial force experienced by th
 
 The majority of the calculations take place within a for-loop, iterating over each position in the air duct, calculating the constants required to satisfy the REE equation, then using these constants to calculate various properties of the air such as temperature and pressure. This took place for both the compressible and incompressible cases.
 
+#### Flow Conditions
+![Flow Conditions](https://i.imgur.com/3MRQVMk.png)
+
 #### REE Property Calculations
 ![REE Property Calculations](https://i.imgur.com/CQYKvU6.png)
 
-## Flow Conditions
-![Flow Conditions](https://i.imgur.com/3MRQVMk.png)
-
-## Modelling Process
-
-
-## Incompressible Flow Case
+## Results
+### Incompressible Flow Case
 The incompressible flow case assumes that the density of air remains constant throughout the duct, even under changes in temperature, pressure, and velocity.
 
+#### Incompressible Flow Results
+![Incompressible Flow Results](https://i.imgur.com/NNM9BLG.png)
 
-## Compressible Flow Case
+### Compressible Flow Case
 The compressible flow case accounts for changes in the density of air under changes in pressure, temperature and velocity. 
+
+#### Incompressible Flow Results
+![Compressible Flow Results](https://i.imgur.com/8e0cGWz.png)
 
 ## Challenges
 
